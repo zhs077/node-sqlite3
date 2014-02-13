@@ -1,0 +1,27 @@
+{
+  "name": "node-sqlite3",
+  "version": "0.0.1",
+  "description": "nodejs sqlite3",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "nodeunit test",
+    "install": "node-gyp rebuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhs077/node-sqlite3"
+  },
+  "keywords": [
+    "sqlite3"
+  ],
+  "author": "zhenghuashan",
+  "license": "BSD-2-Clause",
+  "gypfile": true,
+  "bugs": {
+    "url": "https://github.com/zhs077/node-sqlite3/issues"
+  },
+  "homepage": "https://github.com/zhs077/node-sqlite3"
+}
