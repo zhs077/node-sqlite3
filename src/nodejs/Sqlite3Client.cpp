@@ -22,7 +22,11 @@ void Sqlite3Client::Init(Handle<Object> target)
 	s_ct = Persistent<FunctionTemplate>::New(t);
 	s_ct->InstanceTemplate()->SetInternalFieldCount(1);
 	s_ct->SetClassName(String::NewSymbol("Sqlite3Client"));  //名字就是以后new 的类型
-	NODE_SET_PROTOTYPE_METHOD(s_ct, "open", Open);
+	//NODE_SET_PROTOTYPE_METHOD(s_ct, "open", Open);
+	//NODE_SET_PROTOTYPE_METHOD(s_ct, "open", Open);
+	//只有一个函数的话在windows平台下会报错采用如下写法.
+	t->PrototypeTemplate()->Set(String::NewSymbol("open"),
+      FunctionTemplate::New(Open)->GetFunction());
 	target->Set(String::NewSymbol("Sqlite3Client"), s_ct->GetFunction());
 	
 }
