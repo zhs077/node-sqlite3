@@ -14,7 +14,7 @@ public:
 	static void Init(Handle<Object> target);
 	static Handle<Value> New(const Arguments& args);
 	static Persistent<FunctionTemplate> constructorTemplate;
-	static Handle<Value> Close(const Arguments& args);
+	static Handle<Value>Close(const Arguments& args);
 	static Handle<Value>Query(const Arguments& args);
 	static Handle<Value>Execute(const Arguments& args);
 	static Handle<Value>ExecuteSync(const Arguments& args);

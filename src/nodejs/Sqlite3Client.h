@@ -18,6 +18,7 @@ public:
 	static void EIO_Open(uv_work_t* req);
 	static void EIO_AfterOpen(uv_work_t* req, int status);
 	static void open_asyn_callback(uv_async_t* handle, int status);
+	static Handle<Value>OpenSync(const Arguments& args);
 	Sqlite3Client();
 	~Sqlite3Client();
 	

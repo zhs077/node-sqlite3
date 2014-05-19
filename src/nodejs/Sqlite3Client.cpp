@@ -27,6 +27,8 @@ void Sqlite3Client::Init(Handle<Object> target)
 	//只有一个函数的话在windows平台下会报错采用如下写法.
 	t->PrototypeTemplate()->Set(String::NewSymbol("open"),
       FunctionTemplate::New(Open)->GetFunction());
+	t->PrototypeTemplate()->Set(String::NewSymbol("openSync"),
+		FunctionTemplate::New(OpenSync)->GetFunction());
 	target->Set(String::NewSymbol("Sqlite3Client"), s_ct->GetFunction());
 	
 }
@@ -59,6 +61,38 @@ Handle<Value> Sqlite3Client::Open(const Arguments& args) {
 	uv_async_send(&connJob->main_async);
 
 	return Undefined();
+}
+
+Handle<Value>Sqlite3Client::OpenSync(const Arguments& args)
+{
+	Sqlite3Client* client = ObjectWrap::Unwrap<Sqlite3Client>(args.This());
+	HandleScope scope;
+	Handle<Value> argv[1];
+	String::Utf8Value strPath(args[0]);
+	TSTRING path;
+#ifdef OS_WIN32
+	path = encodeConv::CodingConv::s2ws(ToCString(strPath));
+#elif defined OS_LINUX
+	path = ToCString(strPath);
+#endif
+	CSqliteConn* pConn = new CSqliteConn();
+	bool bRet = pConn->OpenSqlite(path.c_str());
+	if (bRet)
+	{
+		Handle<Object> connection = Sqlite3Connection::constructorTemplate->GetFunction()->NewInstance();
+		(node::ObjectWrap::Unwrap<Sqlite3Connection>(connection))->setConnection(pConn);
+		argv[0] = connection;
+
+	}
+	else
+	{
+		delete pConn;
+		argv[0]=Undefined();
+		
+
+	}
+	return scope.Close(argv[0]);
+	
 }
 
 void Sqlite3Client::open_asyn_callback(uv_async_t* handle, int status)
